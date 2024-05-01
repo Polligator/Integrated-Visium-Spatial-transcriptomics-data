@@ -4,7 +4,8 @@ output: github_document
 ---
 
 
-A simple function used to integrate 10x Genomics Visium Spatial transcriptomics data, the integration is based on Seuart frame work, integration methods includes: scVI,FastMNN,CCA,Harmony and Feature_Anchoring.
+A simple function used to integrate 10x Genomics Visium Spatial transcriptomics data, the integration is based on Seuart frame work.
+integration methods includes: scVI,FastMNN,CCA,Harmony and FeatureAnchoring.
 
 To use this function, you need to have the following R packages installed: Seurat, batchelor, reticulate, and the following python packages: scanpy, anndata, scvi-tools.
 All you need to do is to provide the path to the directory that contains all the spaceranger output data, the function will automatically read the data and integrate them.
@@ -51,7 +52,7 @@ inetgrated_ST<-ST_Data_Integration(visium_dir = visium_dir, method = "SCVI", con
 visium_dir is the path to your directory, which should contain all the individual spaceranger data folder.
 
 
-##FastMNN: 
+## FastMNN: 
 This method integrate ST data using batchelor packages : https://bioconductor.org/packages/release/bioc/html/batchelor.html, there are two options for this method: FastMNN_all and FastNMF_variable. FastMNN_all using all common genes that present in all you samples to integrate the data, FastNMF_variable only use the vaibale features that identified by Seurat function VariableFeatures() to integrate
 
 ```{r setup, include=FALSE}
@@ -69,7 +70,7 @@ inetgrated_ST <- ST_Data_Integration(visium_dir = visium_dir, method = "CCA")
 inetgrated_ST <- ST_Data_Integration(visium_dir = visium_dir, method = "Harmony")
 ``` 
 
-## Feature_Anchoring
+## FeatureAnchoring
 This method is based on the Seurat package, it uses the feature anchoring function to integrate the data, the function will automatically select the top 2000 variable features to integrate the data.
 Esstentially, it is a wrapper function for the Seurat function FindIntegrationAnchors and IntegrateData.
 ```{r setup, include=FALSE}
