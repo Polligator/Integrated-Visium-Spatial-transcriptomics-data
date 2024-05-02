@@ -82,7 +82,7 @@ DimPlot(inetgrated_ST, reduction = "umap.integrated", group.by = c("integrated_c
 ```
 
 ## FeatureAnchoring
-This method is based on the Seurat package, it uses the feature anchoring function to integrate the data, the function will automatically select the top 2000 variable features to integrate the data.
+This method is based on the Seurat package, it uses the feature anchoring function to integrate the data, the function will automatically select the maximiun number of variable features to integrate the data.
 Esstentially, it is a wrapper function for the Seurat function FindIntegrationAnchors and IntegrateData.
 ```{r setup, include=FALSE}
 int.anchors <- FindIntegrationAnchors(object.list = st.list, normalization.method = "SCT", verbose = FALSE, anchor.features = st.features)
