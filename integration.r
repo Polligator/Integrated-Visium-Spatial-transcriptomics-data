@@ -53,7 +53,6 @@ ST_Data_Integration <- function(visium_dir = visium_dir, method = "FeatureAnchor
         merged_spe <- Reduce(merge, st.list)
         merged_spe <- SetIdent(merged_spe, value = "orig.ident")
         layers <- Layers(merged_spe, search = "data")
-        merged_spe <- SCTransform(merged_spe, assay = "SCT", method = "poisson", return.only.var.genes = FALSE)
         if (method == "FastNMF_all") {
             cm_features <- Reduce(intersect, lapply(st.list, Features))
         } else if (method == "FastNMF_variable" ) {
@@ -112,8 +111,9 @@ ST_Data_Integration <- function(visium_dir = visium_dir, method = "FeatureAnchor
     } else if (method == "FeatureAnchoring") {
         # need to set maxSize for PrepSCTIntegration to work
         options(future.globals.maxSize = 2000 * 1024^2) # set allowed size to 2K MiB
-        st.features <- SelectIntegrationFeatures(object.list = st.list, nfeatures = 100)
-        st.list <- PrepSCTIntegration(object.list = st.list, anchor.features = 100, verbose = FALSE) ## adjust anchor.features if error out
+        cm_var_features <- intersect(Reduce(intersect, lapply(st.list, Features)), Reduce(intersect, lapply(st.list, VariableFeatures)))
+        st.features <- SelectIntegrationFeatures(object.list = st.list, nfeatures = length(cm_var_features))
+        st.list <- PrepSCTIntegration(object.list = st.list, anchor.features = length(cm_var_features), verbose = FALSE)
         int.anchors <- FindIntegrationAnchors(object.list = st.list, normalization.method = "SCT", verbose = FALSE, anchor.features = st.features)
         integ_spe <- IntegrateData(anchorset = int.anchors, normalization.method = "SCT", verbose = FALSE)
         integ_spe <- RunPCA(integ_spe, verbose = FALSE)
