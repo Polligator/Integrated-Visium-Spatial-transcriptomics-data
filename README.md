@@ -45,7 +45,7 @@ To use this method, you need to have a working conda environment set up for the 
 To load this function and run in your R terminal:
 
 ```{r setup, include=FALSE}
-source('https://raw.githubusercontent.com/Polligator/Integrated-10x-Genomics-Visium-Spatial-transcriptomics-data/main/integration.r')
+source('https://github.com/Polligator/Integrated-Visium-Spatial-transcriptomics-data/blob/main/integration.r')
 inetgrated_ST<-ST_Data_Integration(visium_dir = visium_dir, method = "SCVI", conda_env = "/miniconda3/envs/scvi",epochs = 100) 
 ```
 visium_dir is the path to your directory, which should contain all the individual spaceranger data folder.
