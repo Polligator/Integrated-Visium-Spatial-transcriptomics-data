@@ -1,6 +1,6 @@
 
 
-ST_Data_Integration <- function(visium_dir = visium_dir, method = "FeatureAnchoring", conda_env = "/miniconda3/envs/scvi") {
+ST_Data_Integration <- function(visium_dir = visium_dir, method = "FeatureAnchoring", conda_env = "/miniconda3/envs/scvi",epochs = 100) {
     if (!require("batchelor", character.only = TRUE)) {
         BiocManager::install("batchelor")
     }
@@ -152,7 +152,7 @@ ST_Data_Integration <- function(visium_dir = visium_dir, method = "FeatureAnchor
         model <- scvi$model$SCVI(
             adata = adata, n_latent = as.integer(10), n_layers = as.integer(1), gene_likelihood = "nb"
         )
-        model$train(max_epochs = as.integer(100))
+        model$train(max_epochs = as.integer(epochs))
         # extract the latent representation of the merged data
         latent <- model$get_latent_representation()
         latent <- as.matrix(latent)
