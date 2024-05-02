@@ -48,9 +48,12 @@ To load this function and run in your R terminal:
 source('https://raw.githubusercontent.com/Polligator/Integrated-10x-Genomics-Visium-Spatial-transcriptomics-data/main/integration.r')
 inetgrated_ST<-ST_Data_Integration(visium_dir = visium_dir, method = "SCVI", conda_env = "/miniconda3/envs/scvi") 
 ```
-
 visium_dir is the path to your directory, which should contain all the individual spaceranger data folder.
 
+To Visualize:
+```{r setup, include=FALSE}
+DimPlot(inetgrated_ST, reduction = "umap.integrated", group.by = c("integrated_clusters", "orig.ident"), pt.size = 3)
+```
 
 ## FastMNN: 
 This method integrate ST data using batchelor packages : https://bioconductor.org/packages/release/bioc/html/batchelor.html, there are two options for this method: FastMNN_all and FastNMF_variable. FastMNN_all using all common genes that present in all you samples to integrate the data, FastNMF_variable only use the vaibale features that identified by Seurat function VariableFeatures() to integrate
@@ -60,7 +63,11 @@ inetgrated_ST <- ST_Data_Integration(visium_dir = visium_dir, method = "FastNMF_
 inetgrated_ST <- ST_Data_Integration(visium_dir = visium_dir, method = "FastNMF_all")
 
 ```
+To Visualize:
+```{r setup, include=FALSE}
+DimPlot(inetgrated_ST, reduction = "umap.NMF", group.by = c("integrated_clusters", "orig.ident"), pt.size = 3)
 
+```
 
 
 ## CCA or Harmony
@@ -69,6 +76,10 @@ inetgrated_ST <- ST_Data_Integration(visium_dir = visium_dir, method = "FastNMF_
 inetgrated_ST <- ST_Data_Integration(visium_dir = visium_dir, method = "CCA")
 inetgrated_ST <- ST_Data_Integration(visium_dir = visium_dir, method = "Harmony")
 ``` 
+To Visualize:
+```{r setup, include=FALSE}
+DimPlot(inetgrated_ST, reduction = "umap.integrated", group.by = c("integrated_clusters", "orig.ident"), pt.size = 3)
+```
 
 ## FeatureAnchoring
 This method is based on the Seurat package, it uses the feature anchoring function to integrate the data, the function will automatically select the top 2000 variable features to integrate the data.
@@ -80,4 +91,10 @@ brain.integrated <- IntegrateData(anchorset = int.anchors, normalization.method 
 To use this method
 ```{r setup, include=FALSE}
 inetgrated_ST <- ST_Data_Integration(visium_dir = visium_dir, method = "FeatureAnchoring")
+```
+
+To Visualize:
+```{r setup, include=FALSE}
+DimPlot(inetgrated_ST, reduction = "umap", group.by = c("ident", "orig.ident"))
+
 ```
